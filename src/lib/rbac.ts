@@ -1,8 +1,8 @@
-export type UserRole = 'admin' | 'manager' | 'dept_head' | 'employee'
+export type UserRole = 'admin' | 'asset_manager' | 'dept_head' | 'employee'
 
 export const ROLES: Record<Uppercase<UserRole>, UserRole> = {
   ADMIN: 'admin',
-  MANAGER: 'manager',
+  ASSET_MANAGER: 'asset_manager',
   DEPT_HEAD: 'dept_head',
   EMPLOYEE: 'employee',
 }
@@ -10,7 +10,7 @@ export const ROLES: Record<Uppercase<UserRole>, UserRole> = {
 export const ROLE_HIERARCHY: Record<UserRole, number> = {
   employee: 1,
   dept_head: 2,
-  manager: 3,
+  asset_manager: 3,
   admin: 4,
 }
 

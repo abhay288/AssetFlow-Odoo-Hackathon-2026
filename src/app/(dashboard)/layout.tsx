@@ -1,21 +1,42 @@
-import React from 'react'
-import { Sidebar } from '@/components/layout/sidebar'
-import { TopNavbar } from '@/components/layout/topbar'
+import { redirect } from 'next/navigation'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { AppShell } from '@/components/layout/app-shell'
+import { UserRole } from '@/lib/rbac'
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll() {},
+      },
+    }
+  )
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/auth/login')
+  }
+
+  // Assuming role is stored in user metadata or defaults to 'employee'
+  const role = (user.user_metadata?.role || 'employee') as UserRole
+
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      <Sidebar />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <TopNavbar />
-        <main className="flex-1 overflow-y-auto bg-muted/20 p-6">
-          {children}
-        </main>
-      </div>
-    </div>
+    <AppShell user={user} role={role}>
+      {children}
+    </AppShell>
   )
 }
