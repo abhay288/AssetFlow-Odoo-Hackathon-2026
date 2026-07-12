@@ -42,5 +42,5 @@ export async function GET(request: Request) {
   }
 
   // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/auth/login?error=InvalidAuth`)
+  return NextResponse.redirect(`${origin}/login?error=InvalidAuth`)
 }

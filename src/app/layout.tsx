@@ -8,6 +8,8 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+import { Toaster } from "@/components/ui/sonner";
+
 export const metadata: Metadata = {
   title: "AssetFlow | Enterprise Asset Management",
   description: "Award-winning enterprise-grade ERP web application for Asset & Resource Management.",
@@ -23,6 +25,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers>
           {children}
+          <Toaster />
         </Providers>
       </body>
     </html>

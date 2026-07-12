@@ -2,111 +2,126 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
+function SkeletonBox({ className = '' }: { className?: string }) {
+  return (
+    <div className={`animate-shimmer rounded-2xl ${className}`} />
+  )
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0 }
+function SkeletonLine({ width = 'full', height = 'h-3' }: { width?: string; height?: string }) {
+  const widthClass = width === 'full' ? 'w-full' : `w-${width}`
+  return <div className={`animate-shimmer rounded-full ${heightClass(height)} ${widthClass}`} />
 }
+
+function heightClass(h: string) { return h }
 
 export function DashboardSkeleton() {
   return (
-    <motion.div 
-      className="space-y-6"
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="space-y-6 pb-8"
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <Skeleton className="h-8 w-[250px] mb-2" />
-          <Skeleton className="h-4 w-[350px]" />
+      {/* Hero skeleton */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <div className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-8 shadow-sm">
+            <div className="flex items-start justify-between mb-6">
+              <div className="space-y-3 flex-1">
+                <div className="animate-shimmer rounded-full h-3.5 w-24" />
+                <div className="animate-shimmer rounded-full h-7 w-48" />
+                <div className="animate-shimmer rounded-full h-3 w-64" />
+              </div>
+              <div className="space-y-2 items-end flex flex-col">
+                <div className="animate-shimmer rounded-full h-3 w-20" />
+                <div className="animate-shimmer rounded-full h-3 w-32" />
+                <div className="animate-shimmer w-20 h-20" style={{ borderRadius: '50%' }} />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-3">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="animate-shimmer rounded-xl h-20" />
+              ))}
+            </div>
+            <div className="mt-5 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex gap-4">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="animate-shimmer rounded-full h-3 w-24" />
+              ))}
+            </div>
+          </div>
         </div>
-        <Skeleton className="h-10 w-[120px] rounded-md" />
+        <div className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-6 shadow-sm space-y-4">
+          <div className="animate-shimmer rounded-full h-3 w-28" />
+          <div className="animate-shimmer rounded-xl h-32 w-full" />
+          <div className="space-y-2">
+            <div className="animate-shimmer rounded-full h-3 w-full" />
+            <div className="animate-shimmer rounded-full h-3 w-4/5" />
+            <div className="animate-shimmer rounded-full h-3 w-3/5" />
+          </div>
+        </div>
       </div>
 
-      <motion.div variants={itemVariants} className="grid gap-4 md:grid-cols-3">
-        <Card className="md:col-span-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50">
-          <CardContent className="p-8 h-full flex flex-col justify-between">
-            <div className="space-y-4">
-              <Skeleton className="h-4 w-[120px]" />
-              <Skeleton className="h-8 w-[300px]" />
-              <Skeleton className="h-4 w-[80%]" />
-              <Skeleton className="h-4 w-[70%]" />
+      {/* KPI cards skeleton */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="animate-shimmer rounded-xl h-10 w-10" />
+              <div className="animate-shimmer rounded-full h-5 w-14" />
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="space-y-2">
-                  <Skeleton className="h-3 w-[80px]" />
-                  <Skeleton className="h-6 w-[100px]" />
-                </div>
-              ))}
+            <div className="space-y-1.5">
+              <div className="animate-shimmer rounded-full h-8 w-20" />
+              <div className="animate-shimmer rounded-full h-3 w-24" />
             </div>
-          </CardContent>
-        </Card>
-        <Card className="border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50">
-          <CardContent className="p-6 h-full flex flex-col space-y-4">
-            <div className="flex items-center space-x-2">
-              <Skeleton className="h-8 w-8 rounded-lg" />
-              <Skeleton className="h-5 w-[150px]" />
-            </div>
-            <Skeleton className="flex-1 w-full rounded-xl" />
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      <motion.div variants={itemVariants} className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-          <Card key={i} className="border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50">
-            <CardContent className="p-5 flex flex-col justify-between h-[120px]">
-              <div className="flex items-center justify-between">
-                <Skeleton className="h-8 w-8 rounded-lg" />
-                <Skeleton className="h-5 w-12 rounded-full" />
-              </div>
-              <div className="space-y-2">
-                <Skeleton className="h-7 w-[80px]" />
-                <Skeleton className="h-3 w-[100px]" />
-              </div>
-            </CardContent>
-          </Card>
+            <div className="animate-shimmer rounded h-7 w-full opacity-50" />
+          </div>
         ))}
-      </motion.div>
+      </div>
 
-      <motion.div variants={itemVariants} className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 h-[400px] border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 flex flex-col">
-          <CardHeader>
-            <CardTitle><Skeleton className="h-6 w-[180px]" /></CardTitle>
-          </CardHeader>
-          <CardContent className="flex-1">
-            <Skeleton className="h-full w-full rounded-xl opacity-20" />
-          </CardContent>
-        </Card>
-        <Card className="col-span-3 h-[400px] border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 flex flex-col">
-          <CardHeader>
-            <CardTitle><Skeleton className="h-6 w-[140px]" /></CardTitle>
-          </CardHeader>
-          <CardContent className="flex-1 space-y-4">
-             {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="flex items-center space-x-4">
-                  <Skeleton className="h-10 w-10 rounded-full" />
-                  <div className="space-y-2 flex-1">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-3 w-[70%]" />
-                  </div>
-                </div>
+      {/* Charts skeleton */}
+      <div className="grid gap-4 md:grid-cols-2">
+        {[...Array(2)].map((_, i) => (
+          <div key={i} className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-6 shadow-sm">
+            <div className="animate-shimmer rounded-full h-4 w-32 mb-6" />
+            <div className="animate-shimmer rounded-xl h-48 w-full" />
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom row skeleton */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <div className="lg:col-span-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-6 shadow-sm space-y-4">
+          <div className="animate-shimmer rounded-full h-4 w-36" />
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="flex gap-3">
+              <div className="animate-shimmer rounded-full h-4 w-4 shrink-0 mt-0.5" />
+              <div className="flex-1 space-y-2">
+                <div className="animate-shimmer rounded-full h-3 w-1/2" />
+                <div className="animate-shimmer rounded-full h-2.5 w-3/4" />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="lg:col-span-3 space-y-4">
+          <div className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-6 shadow-sm">
+            <div className="animate-shimmer rounded-full h-4 w-28 mb-4" />
+            <div className="grid grid-cols-3 gap-3">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="animate-shimmer rounded-xl h-20" />
               ))}
-          </CardContent>
-        </Card>
-      </motion.div>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-6 shadow-sm h-48">
+            <div className="animate-shimmer rounded-full h-4 w-24 mb-4" />
+            <div className="space-y-3">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="animate-shimmer rounded-xl h-8 w-full" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </motion.div>
   )
 }

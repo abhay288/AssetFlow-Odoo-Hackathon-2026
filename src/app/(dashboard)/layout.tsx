@@ -28,7 +28,7 @@ export default async function DashboardLayout({
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/auth/login')
+    redirect('/login')
   }
 
   // Assuming role is stored in user metadata or defaults to 'employee'

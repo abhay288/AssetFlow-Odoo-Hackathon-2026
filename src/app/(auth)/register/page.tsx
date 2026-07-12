@@ -27,6 +27,8 @@ const registerSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof registerSchema>
 
+import Image from 'next/image'
+
 export default function RegisterPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
@@ -61,7 +63,7 @@ export default function RegisterPage() {
     }
 
     toast.success('Registration successful! Please check your email to verify your account.')
-    router.push('/auth/login')
+    router.push('/login')
   }
 
   return (
@@ -78,9 +80,7 @@ export default function RegisterPage() {
         <Card className="border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl shadow-2xl">
           <CardHeader className="space-y-2 text-center">
             <div className="flex justify-center mb-4">
-              <div className="h-12 w-12 rounded-xl bg-zinc-900 dark:bg-white flex items-center justify-center shadow-inner">
-                <span className="text-white dark:text-zinc-900 font-bold text-xl">AF</span>
-              </div>
+              <Image src="/assets/assetflow-logo.png" alt="AssetFlow" width={48} height={48} className="rounded-xl shadow-md" />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight">Create an account</CardTitle>
             <CardDescription>Join AssetFlow to manage your organization's assets</CardDescription>
@@ -152,7 +152,7 @@ export default function RegisterPage() {
           <CardFooter className="flex justify-center border-t border-zinc-100 dark:border-zinc-800 pt-6">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               Already have an account?{' '}
-              <Link href="/auth/login" className="text-zinc-900 dark:text-zinc-100 font-medium hover:underline">
+              <Link href="/login" className="text-zinc-900 dark:text-zinc-100 font-medium hover:underline">
                 Sign in
               </Link>
             </p>

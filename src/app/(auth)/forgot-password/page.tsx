@@ -36,7 +36,7 @@ export default function ForgotPasswordPage() {
   async function onSubmit(data: ForgotFormValues) {
     setIsLoading(true)
     const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+      redirectTo: `${window.location.origin}/reset-password`,
     })
 
     if (error) {
@@ -106,7 +106,7 @@ export default function ForgotPasswordPage() {
           <CardFooter className="flex justify-center border-t border-zinc-100 dark:border-zinc-800 pt-6">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               Back to{' '}
-              <Link href="/auth/login" className="text-zinc-900 dark:text-zinc-100 font-medium hover:underline">
+              <Link href="/login" className="text-zinc-900 dark:text-zinc-100 font-medium hover:underline">
                 Sign in
               </Link>
             </p>

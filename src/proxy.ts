@@ -3,9 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { hasRole, UserRole } from '@/lib/rbac'
 
 export async function proxy(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+  let supabaseResponse = NextResponse.next()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,9 +15,7 @@ export async function proxy(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
+          supabaseResponse = NextResponse.next()
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           )
@@ -33,8 +29,10 @@ export async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
+  console.log(`[PROXY] Request path: ${path}, user: ${!!user}`)
+
   const isPublicRoute = path === '/'
-  const isAuthRoute = path.startsWith('/auth')
+  const isAuthRoute = path === '/login' || path === '/register' || path === '/forgot-password' || path === '/reset-password'
   const isDashboardRoute = 
     path.startsWith('/dashboard') || 
     path.startsWith('/organization') ||
@@ -48,9 +46,11 @@ export async function proxy(request: NextRequest) {
     path.startsWith('/settings') ||
     path.startsWith('/profile')
 
+  console.log(`[PROXY] path: ${path}, user: ${!!user}, isAuth: ${isAuthRoute}, isDash: ${isDashboardRoute}, isPub: ${isPublicRoute}`)
+
   if (!user && isDashboardRoute) {
     const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
+    url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
@@ -63,6 +63,12 @@ export async function proxy(request: NextRequest) {
   if (user && isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
+    return NextResponse.redirect(url)
+  }
+
+  if (!user && isPublicRoute) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 

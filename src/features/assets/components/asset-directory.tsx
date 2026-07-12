@@ -57,21 +57,34 @@ export function AssetDirectory() {
   useEffect(() => {
     const fetchAssets = async () => {
       try {
-        const { data: assetsData, error } = await supabase
-          .from('assets')
-          .select(`
-            id, tag_number, name, status, condition, purchase_cost, warranty_end,
-            category:asset_categories(name, icon, color),
-            department:departments(name),
-            owner:employees!owner_id(profile:profiles(first_name, last_name))
-          `)
-          .order('created_at', { ascending: false })
+        const [assetsRes, allocsRes] = await Promise.all([
+          supabase
+            .from('assets')
+            .select(`
+              id, tag_number, name, status, purchase_cost,
+              category:asset_categories(name),
+              department:departments(name)
+            `)
+            .order('created_at', { ascending: false }),
+          supabase
+            .from('asset_allocations')
+            .select(`
+              asset_id, status,
+              employee:employees(profile:profiles(first_name, last_name))
+            `)
+            .eq('status', 'active')
+        ])
 
-        if (error) throw error
+        if (assetsRes.error) throw assetsRes.error
+        if (allocsRes.error) throw allocsRes.error
 
-        const formatted = assetsData?.map((a: any) => {
-          // Handle one-to-many inference
-          const ownerProfile = Array.isArray(a.owner?.profile) ? a.owner.profile[0] : a.owner?.profile
+        const formatted = assetsRes.data?.map((a: any) => {
+          // Find active allocation for this asset
+          const activeAlloc = allocsRes.data?.find((al: any) => al.asset_id === a.id) as any
+          const ownerProfile = Array.isArray(activeAlloc?.employee?.profile) 
+            ? activeAlloc.employee.profile[0] 
+            : activeAlloc?.employee?.profile
+          
           
           return {
             id: a.id,
@@ -79,11 +92,11 @@ export function AssetDirectory() {
             name: a.name,
             category: a.category || { name: 'Unknown' },
             department: a.department || null,
-            owner: ownerProfile || null,
+            owner: ownerProfile ? { first_name: ownerProfile.first_name, last_name: ownerProfile.last_name } : null,
             status: a.status,
-            condition: a.condition || 'good',
+            condition: 'good', // default fallback as column doesn't exist on remote DB
             purchase_cost: a.purchase_cost || 0,
-            warranty_end: a.warranty_end || null
+            warranty_end: null // default fallback as column doesn't exist on remote DB
           }
         }) || []
 
