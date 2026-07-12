@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { Sidebar } from './sidebar'
 import { TopNav } from './top-nav'
 import { CommandPalette } from './command-palette'
+import { AssetFlowAIAssistant } from './ai-assistant'
+import { WelcomeTour } from './welcome-tour'
 import { UserRole } from '@/lib/rbac'
 import { User } from '@supabase/supabase-js'
 
@@ -55,6 +57,8 @@ export function AppShell({ children, user, role }: AppShellProps) {
       </div>
 
       <CommandPalette role={role} />
+      <AssetFlowAIAssistant />
+      <WelcomeTour />
     </div>
   )
 }

@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import Link from 'next/link'
 import { 
   Bell, 
   Menu, 
@@ -9,8 +10,11 @@ import {
   User as UserIcon, 
   LogOut,
   Moon,
-  Sun
+  Sun,
+  Settings
 } from 'lucide-react'
+import { NotificationWidget } from './notification-widget'
+import { GlobalSearch } from './global-search'
 import { UserRole } from '@/lib/rbac'
 import { User } from '@supabase/supabase-js'
 import { useTheme } from 'next-themes'
@@ -33,7 +37,10 @@ interface TopNavProps {
 
 export function TopNav({ user, role, toggleSidebar }: TopNavProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const { theme, setTheme } = useTheme()
+
+  const isActive = (path: string) => pathname?.startsWith(path)
 
   const handleLogout = async () => {
     try {
@@ -74,17 +81,17 @@ export function TopNav({ user, role, toggleSidebar }: TopNavProps) {
           <Menu className="h-5 w-5" />
         </button>
 
-        {/* Global Search trigger */}
-        <button 
-          onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))}
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all w-64"
-        >
-          <Search className="h-4 w-4" />
-          <span>Search...</span>
-          <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800 px-1.5 font-mono text-[10px] font-medium text-zinc-500 opacity-100">
-            <span className="text-xs">⌘</span>K
-          </kbd>
-        </button>
+        <nav className="hidden lg:flex items-center gap-6 mr-4">
+          <Link href="/dashboard" className={`text-sm font-medium transition-colors ${isActive('/dashboard') ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50'}`}>Dashboard</Link>
+          <Link href="/assets" className={`text-sm font-medium transition-colors ${isActive('/assets') ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50'}`}>Assets</Link>
+          <Link href="/bookings" className={`text-sm font-medium transition-colors ${isActive('/bookings') ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50'}`}>Bookings</Link>
+          <Link href="/maintenance" className={`text-sm font-medium transition-colors ${isActive('/maintenance') ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50'}`}>Maintenance</Link>
+          <Link href="/audits" className={`text-sm font-medium transition-colors ${isActive('/audits') ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50'}`}>Audits</Link>
+          <Link href="/organization" className={`text-sm font-medium transition-colors ${isActive('/organization') ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50'}`}>Organization</Link>
+          <Link href="/reports" className={`text-sm font-medium transition-colors ${isActive('/reports') ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50'}`}>Reports</Link>
+        </nav>
+
+        <GlobalSearch />
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">
@@ -104,13 +111,11 @@ export function TopNav({ user, role, toggleSidebar }: TopNavProps) {
         </button>
 
         {/* Notifications */}
-        <button className="relative p-2 rounded-md text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
-          <Bell className="h-5 w-5" />
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-blue-500 ring-2 ring-white dark:ring-zinc-950" />
-        </button>
+        <NotificationWidget />
 
         {/* User Menu */}
         <DropdownMenu>
+          {/* @ts-expect-error - Radix UI DropdownMenuTrigger typings conflict */}
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 ml-2 rounded-full outline-none focus:ring-2 focus:ring-zinc-200 dark:focus:ring-zinc-800">
               <Avatar className="h-8 w-8 border border-zinc-200 dark:border-zinc-800">
