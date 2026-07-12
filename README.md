@@ -1,87 +1,554 @@
-# AssetFlow Enterprise
+<div align="center">
 
-![AssetFlow Demo](https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80)
+# 🚀 AssetFlow
+### Enterprise Asset & Resource Management System
 
-AssetFlow is a highly polished, enterprise-grade Digital Asset Management & Operations platform designed for the modern organization. Drawing inspiration from top-tier tools like Odoo Enterprise, Linear, and Notion, AssetFlow delivers a premium user experience with robust, real-time backend functionality.
+<img src="./public/logo.png" alt="AssetFlow Logo" width="180"/>
 
-## 🚀 Features
+**Built for Odoo Hackathon 2026**
 
-AssetFlow is built around 11 distinct enterprise phases:
+*A Modern Enterprise ERP for Intelligent Asset & Resource Management*
 
-1.  **RBAC Security**: Role-based access control (Admin, Manager, Employee) powering dynamic navigation and data access.
-2.  **Executive Dashboard**: Real-time KPI cards, animated activity timelines, and actionable AI insights.
-3.  **Organization Setup**: Manage departments, locations, and personnel with detailed profile directories.
-4.  **Asset Registry**: A comprehensive digital directory of all physical and software assets.
-5.  **Lifecycle Workflow**: Track allocations, re-assignments, and returns with enterprise state machines.
-6.  **Resource Booking**: A conflict-preventing scheduling engine for shared assets (meeting rooms, vehicles, etc).
-7.  **Maintenance Engine**: File, assign, and track maintenance tickets for broken assets.
-8.  **Audit & Verification**: Plan and execute operational audits to ensure 100% compliance across departments.
-9.  **Executive Analytics**: A stunning `Recharts` powered dashboard visualizing utilization, maintenance costs, and asset health.
-10. **Real-time Notifications**: Instant alerts across the organization powered by Supabase Realtime channels.
-11. **AssetFlow AI**: A ChatGPT-inspired floating assistant that queries your database via natural language patterns.
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=nextdotjs)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0-38BDF8?style=for-the-badge&logo=tailwindcss)
 
-## 🛠 Tech Stack
+</div>
 
--   **Frontend**: Next.js 16 (App Router), React 19, TailwindCSS v4
--   **UI & Animations**: `shadcn/ui`, Radix Primitives, Framer Motion, Lucide React, `cmdk`
--   **Data Visualization**: Recharts
--   **Backend / Database**: Supabase (PostgreSQL), Supabase Auth, Supabase Realtime
+---
 
-## 🏗 Architecture & ER Diagram
+# 📖 Overview
 
-AssetFlow runs on a fully relational PostgreSQL schema deployed to Supabase.
-All business logic enforces referential integrity, and Row Level Security (RLS) protects data at the API layer.
+AssetFlow is a modern Enterprise Asset & Resource Management System developed for the **Odoo Hackathon 2026**.
 
-```mermaid
-erDiagram
-    PROFILES ||--o{ ASSETS : manages
-    PROFILES ||--o{ DEPARTMENTS : belongs_to
-    DEPARTMENTS ||--o{ ASSETS : owns
-    ASSETS ||--o{ ASSET_ALLOCATIONS : allocated_to
-    ASSETS ||--o{ MAINTENANCE_REQUESTS : requires
-    ASSETS ||--o{ BOOKINGS : reserved_for
-    AUDIT_CYCLES ||--o{ AUDIT_ITEMS : contains
-    AUDIT_ITEMS }o--|| ASSETS : verifies
+The platform enables organizations to efficiently manage their physical assets, shared resources, maintenance workflows, audit cycles, employee allocations, and analytics through a centralized ERP solution.
+
+Unlike traditional inventory systems, AssetFlow provides complete lifecycle management from registration to retirement while maintaining enterprise-grade workflows, approvals, reporting, and role-based access control.
+
+---
+
+# 🎯 Problem Statement
+
+Organizations often struggle with:
+
+- Spreadsheet-based asset tracking
+- Duplicate asset allocation
+- Poor maintenance visibility
+- Manual audit processes
+- Resource booking conflicts
+- Lack of operational analytics
+
+AssetFlow digitizes the complete asset lifecycle with a scalable ERP architecture.
+
+---
+
+# ✨ Key Features
+
+## 🏢 Organization Management
+
+- Department Management
+- Employee Directory
+- Asset Categories
+- Department Hierarchy
+- Role Assignment
+- Role-Based Access Control (RBAC)
+
+---
+
+## 📦 Asset Management
+
+- Asset Registration
+- Auto Generated Asset Tags
+- QR Code Generation
+- Barcode Support
+- Asset Documents
+- Asset Photos
+- Asset History
+- Asset Lifecycle Tracking
+
+Supported Asset States
+
+- Available
+- Allocated
+- Reserved
+- Under Maintenance
+- Lost
+- Retired
+- Disposed
+
+---
+
+## 👥 Asset Allocation
+
+- Allocate Assets
+- Transfer Requests
+- Return Workflow
+- Conflict Prevention
+- Overdue Return Detection
+- Allocation Timeline
+
+---
+
+## 📅 Resource Booking
+
+- Meeting Rooms
+- Vehicles
+- Equipment
+- Calendar View
+- Time Slot Validation
+- Overlap Detection
+- Booking Reminders
+
+---
+
+## 🔧 Maintenance Management
+
+- Raise Maintenance Requests
+- Approval Workflow
+- Technician Assignment
+- Maintenance Timeline
+- Cost Tracking
+- Asset Health Monitoring
+
+Workflow
+
+Pending
+
+↓
+
+Approved
+
+↓
+
+Technician Assigned
+
+↓
+
+In Progress
+
+↓
+
+Resolved
+
+---
+
+## ✅ Audit Management
+
+- Audit Cycles
+- Auditor Assignment
+- Asset Verification
+- Missing Asset Detection
+- Damaged Asset Reporting
+- Auto-generated Discrepancy Reports
+- Audit History
+
+---
+
+## 📊 Reports & Analytics
+
+- Executive Dashboard
+- Asset Utilization
+- Maintenance Trends
+- Department Analytics
+- Booking Analytics
+- Audit Reports
+- Export Reports
+
+---
+
+## 🤖 AssetFlow AI
+
+- Natural Language Search
+- Executive Insights
+- Asset Recommendations
+- Predictive Maintenance Suggestions
+- AI Summary
+- Intelligent Dashboard
+
+---
+
+## 🔔 Notification Center
+
+- Asset Assigned
+- Maintenance Updates
+- Booking Reminders
+- Transfer Approval
+- Audit Notifications
+- Overdue Alerts
+
+---
+
+# 👥 User Roles
+
+## 👑 Admin
+
+- Manage Departments
+- Manage Employees
+- Assign Roles
+- Configure Categories
+- Create Audit Cycles
+- View Organization Analytics
+- Full System Access
+
+---
+
+## 📦 Asset Manager
+
+- Register Assets
+- Allocate Assets
+- Approve Transfers
+- Approve Maintenance
+- Manage Asset Lifecycle
+- View Reports
+
+---
+
+## 🏢 Department Head
+
+- View Department Assets
+- Approve Department Transfers
+- Book Shared Resources
+- View Department Reports
+
+---
+
+## 👤 Employee
+
+- View Assigned Assets
+- Book Resources
+- Raise Maintenance Requests
+- Request Asset Return
+- Request Transfer
+
+---
+
+# 🔄 Asset Lifecycle
+
+```
+Available
+
+↓
+
+Allocated
+
+↓
+
+Transfer
+
+↓
+
+Returned
+
+↓
+
+Available
+
+↓
+
+Maintenance
+
+↓
+
+Available
+
+↓
+
+Audit
+
+↓
+
+Retired
+
+↓
+
+Disposed
 ```
 
-## 📦 Installation & Setup
+---
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-org/assetflow.git
-   cd assetflow
-   ```
+# 🏗 Architecture
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+```
+Frontend
 
-3. **Configure Environment**
-   Create a `.env.local` file in the root directory:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+↓
 
-4. **Deploy Database Migrations**
-   Execute the migration files located in `supabase/migrations/` sequentially in your Supabase SQL Editor. You can also run the combined `supabase/pending_migrations.sql`.
+Next.js 15
 
-5. **Run the Development Server**
-   ```bash
-   npm run dev
-   ```
+↓
 
-## 🎥 Hackathon Demo Guide
+Supabase API
 
-To demonstrate AssetFlow effectively:
-1. Log in using an **Admin** account to access all modules.
-2. Wait for the **Welcome Tour** to appear on the first load (or clear your localStorage).
-3. Navigate to **Assets** and create a new asset. 
-4. Allocate that asset to an Employee. Observe the status change instantly across the app.
-5. Hit `Cmd+K` to open the Global Search and search for the newly created asset.
-6. Open the **AssetFlow AI Assistant** (Sparkles icon, bottom right) and ask "Who owns [Asset Name]?".
-7. Check the **Reports** dashboard to see the Asset Utilization pie chart update dynamically.
+↓
 
-## 🛡 License
-Internal Enterprise Use Only.
+PostgreSQL
+
+↓
+
+Supabase Storage
+
+↓
+
+Realtime
+```
+
+---
+
+# 💻 Tech Stack
+
+## Frontend
+
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
+- Shadcn UI
+- Framer Motion
+- GSAP
+- React Three Fiber
+- Lenis
+- Zustand
+- TanStack Query
+
+## Backend
+
+- Supabase
+- PostgreSQL
+- Authentication
+- Realtime
+- Storage
+
+## Charts
+
+- Recharts
+
+---
+
+# 📁 Project Structure
+
+```
+app/
+
+components/
+
+features/
+
+hooks/
+
+lib/
+
+services/
+
+types/
+
+utils/
+
+supabase/
+
+public/
+
+styles/
+```
+
+---
+
+# 🚀 Installation
+
+```bash
+git clone https://github.com/yourusername/assetflow.git
+
+cd assetflow
+
+npm install
+```
+
+---
+
+# ⚙ Environment Variables
+
+Create a `.env.local`
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+SUPABASE_SERVICE_ROLE_KEY=
+```
+
+---
+
+# ▶ Run Project
+
+```bash
+npm run dev
+```
+
+---
+
+# 🛠 Build
+
+```bash
+npm run build
+```
+
+---
+
+# 🌐 Deployment
+
+Frontend
+
+- Vercel
+
+Backend
+
+- Supabase
+
+Database
+
+- PostgreSQL
+
+---
+
+# 📷 Screenshots
+
+Add screenshots here.
+
+Dashboard
+
+Assets
+
+Bookings
+
+Maintenance
+
+Audit
+
+Reports
+
+AI Assistant
+
+---
+
+# 🎥 Demo Video
+
+Add demo video link here.
+
+---
+
+# 🌍 Live Demo
+
+Add deployed URL here.
+
+---
+
+# 🧪 Demo Credentials
+
+## Admin
+
+Email
+
+```
+admin@assetflow.com
+```
+
+Password
+
+```
+Admin@123
+```
+
+---
+
+## Asset Manager
+
+```
+manager@assetflow.com
+```
+
+Password
+
+```
+Manager@123
+```
+
+---
+
+## Department Head
+
+```
+depthead@assetflow.com
+```
+
+Password
+
+```
+Dept@123
+```
+
+---
+
+## Employee
+
+```
+employee@assetflow.com
+```
+
+Password
+
+```
+Employee@123
+```
+
+---
+
+# 📈 Future Enhancements
+
+- Mobile Application
+- NFC Asset Tracking
+- IoT Integration
+- RFID Support
+- AI Predictive Analytics
+- Multi Organization Support
+- Multi Language
+- Offline Mode
+- ERP Integrations
+- OCR Invoice Scanner
+
+---
+
+# 👨‍💻 Team
+
+## Team Name
+
+AssetFlow Innovators
+
+### Members
+
+- Abhay Kushwaha (Team Leader)
+- Archana Gupta
+
+---
+
+# 🙏 Acknowledgements
+
+Special thanks to
+
+- Odoo Hackathon 2026
+- Supabase
+- Next.js
+- React
+- Vercel
+- Open Source Community
+
+---
+
+<div align="center">
+
+### ⭐ Built with passion for Odoo Hackathon 2026 ⭐
+
+**AssetFlow — Track • Manage • Optimize**
+
+</div>
